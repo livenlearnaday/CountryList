@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="country_list">Country List</string>
+    <string name="country_detail">Country Detail</string>
+
+    <!-- Error messages -->
+    <string name="error_disk_full">Failed to save. Reason: Disk is full</string>
+    <string name="error_request_timeout">The request timed out</string>
+    <string name="error_too_many_requests">Too many requests</string>
+    <string name="error_no_internet">Failed to connect. Reason: No Internet connection</string>
+    <string name="error_payload_too_large">File is too large.</string>
+    <string name="error_server_error">Server Error occurred. Please try again</string>
+    <string name="error_serialization">Data conversion error.</string>
+    <string name="error_unknown">Error occurred. Please try again</string>
+    <string name="okay">Okay</string>
+
+    <!-- dialog -->
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="dialog_reload_countries_message">Data will be reloaded from the internet and all current data (e.g. favorites) will be reset. Do you really want to reload data from the internet and reset current data?</string>
+    <string name="dialog_reset_fav_countries_message">All favorites will be reset. Do you really want to reset?</string>
+
+    <!-- country detail  -->
+    <string name="title_capital">Capital: </string>
+    <string name="title_region">Region: </string>
+    <string name="title_subregion">Subregion: </string>
+    <string name="title_languages">Language(s): </string>
+    <string name="title_calling_codes">Calling code(s): </string>
+    <string name="title_note">Note: </string>
+
+</resources>

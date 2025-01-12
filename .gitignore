@@ -1,0 +1,17 @@
+*.iml
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea/compiler.xml
+/data/consumer-rules.pro
+/app/proguard-rules.pro
+/data/proguard-rules.pro
+/presentation/proguard-rules.pro
+/.kotlin/*
+/presentation/consumer-rules.pro

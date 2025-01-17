@@ -21,7 +21,7 @@ class FetchCountriesFromApiImpTest {
         // Arrange
         val flag = UUID.randomUUID().toString()
         val countryList =  listOf(
-                CountryModel( "Thailand", "Bangkok", "region", "subregion", flag, emptyList(), listOf("+66"))
+                CountryModel( 1, "Thailand", "Bangkok", "region", "subregion", flag, emptyList(), listOf("+66"))
             )
         coEvery { countryListRepository.fetchCountriesFromApi() } returns CheckResult.Success(countryList)
         val fetchCountriesFromApiUseCase = FetchCountriesFromApiUseCaseImp(countryListRepository)

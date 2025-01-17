@@ -61,7 +61,7 @@ dependencies {
     implementation(libs.bundles.navigation)
 
     implementation(libs.timber)
-    implementation(libs.kamil.image.loader)
+    implementation(libs.kamel)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.androidx.constraintlayout.compose)
 

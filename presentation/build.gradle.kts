@@ -68,5 +68,7 @@ dependencies {
     // test
     testImplementation(libs.bundles.test.impl)
     androidTestImplementation(libs.bundles.android.test.impl)
+    androidTestImplementation(libs.bundles.navigation)
     debugImplementation(libs.bundles.debug.impl)
+    androidTestImplementation(libs.ktorClientCio)
 }

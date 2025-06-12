@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.serialization.ktx)
     alias(libs.plugins.room.plugin)
     alias(libs.plugins.ksp.plugin)
+    alias(libs.plugins.spotless)
 }
 
 room {
@@ -32,22 +33,14 @@ android {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        debug {
-            isMinifyEnabled = false
-        }
-    }
+    val properties = org.jetbrains.kotlin.konan.properties.Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
 
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvm.get()
@@ -60,6 +53,8 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.timber)
     implementation(libs.androidx.core.ktx)

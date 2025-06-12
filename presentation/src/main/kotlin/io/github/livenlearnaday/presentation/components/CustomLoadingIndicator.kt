@@ -37,7 +37,7 @@ fun DotPulsingLoadingIndicator(
 
 
 val dotSize = 12.dp
-const val delayUnit = 300 // change delay to change animation speed
+const val DELAY_UNIT = 300 // change delay to change animation speed
 
 @Composable
 fun DotsPulsing(
@@ -65,18 +65,18 @@ fun DotsPulsing(
         targetValue = 0f,
         animationSpec = infiniteRepeatable(
             animation = keyframes {
-                durationMillis = delayUnit * 4
+                durationMillis = DELAY_UNIT * 4
                 0f at delay using LinearEasing
-                1f at delay + delayUnit using LinearEasing
-                0f at delay + delayUnit * 2
+                1f at delay + DELAY_UNIT using LinearEasing
+                0f at delay + DELAY_UNIT * 2
             }
         ),
         label = ""
     )
 
     val scale1 by animateScaleWithDelay(0)
-    val scale2 by animateScaleWithDelay(delayUnit)
-    val scale3 by animateScaleWithDelay(delayUnit * 2)
+    val scale2 by animateScaleWithDelay(DELAY_UNIT)
+    val scale3 by animateScaleWithDelay(DELAY_UNIT * 2)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,

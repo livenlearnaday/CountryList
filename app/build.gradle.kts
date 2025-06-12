@@ -5,11 +5,16 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp.plugin)
     alias(libs.plugins.serialization.ktx)
+    alias(libs.plugins.spotless)
 }
 
 android {
     namespace = "io.github.livenlearnaday.countrylist"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+
+    /* Retrieves API from local.properties */
+    val properties = org.jetbrains.kotlin.konan.properties.Properties()
+    properties.load(project.rootProject.file("local.properties").inputStream())
 
     defaultConfig {
         applicationId = "io.github.livenlearnaday.countrylist"
@@ -18,12 +23,9 @@ android {
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
 
+        multiDexEnabled = true
 
-        /* Retrieves API from local.properties */
-        val properties = org.jetbrains.kotlin.konan.properties.Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-
-        buildConfigField("String", "WEATHERSTACK_KEY", "\"${properties.getProperty("CLIENT_KEY")}\"")
+        buildConfigField("String", "WEATHERSTACK_KEY", "\"${properties["CLIENT_KEY"]}\"")
         buildConfigField("String", "WEATHERSTACK_ENDPOINT", "\"https://api.weatherstack.com/\"")
         buildConfigField("String", "BASE_URL", "\"https://livenlearnaday.github.io/data/countries/\"")
 
@@ -32,7 +34,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -42,6 +44,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+
+        isCoreLibraryDesugaringEnabled = true
     }
 
 
@@ -58,19 +62,36 @@ android {
         compose = true
     }
 
+    signingConfigs {
+        create("release") {
+            this.keyAlias = "${properties["KEY_ALIAS"]}"
+            this.keyPassword = "${properties["KEY_PASSWORD"]}"
+            this.storeFile = file("${properties["KEY_FILE_PATH"]}")
+            this.storePassword = "${properties["STORE_PASSWORD"]}"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isDebuggable = false
+            aaptOptions.cruncherEnabled = false
+            multiDexEnabled = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "../proguard-rules.pro"
             )
         }
     }
 
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += listOf(
+                "META-INF/AL2.0",
+                "META-INF/LGPL2.1",
+                "META-INF/licenses/ASM"
+            )
         }
     }
 }
@@ -80,6 +101,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
@@ -106,6 +128,9 @@ dependencies {
     // koin di
     implementation(libs.bundles.koin)
     implementation(libs.bundles.koin.compose)
+
+
+    implementation(libs.bundles.coil)
 
 
 

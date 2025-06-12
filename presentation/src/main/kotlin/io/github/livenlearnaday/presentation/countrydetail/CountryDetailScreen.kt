@@ -5,15 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +35,6 @@ import io.github.livenlearnaday.presentation.components.CallingCodeCard
 import io.github.livenlearnaday.presentation.components.CustomImage
 import io.github.livenlearnaday.presentation.components.CustomTopAppBar
 import io.github.livenlearnaday.presentation.components.FavToggleButton
-import io.github.livenlearnaday.presentation.ui.theme.CountryListTheme
 
 @Composable
 fun CountryDetailScreen(
@@ -43,6 +44,7 @@ fun CountryDetailScreen(
 ) {
 
     Scaffold(
+        contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             CustomTopAppBar(
                 title = stringResource(R.string.country_detail),
@@ -58,20 +60,16 @@ fun CountryDetailScreen(
         },
         content = { innerPadding ->
 
-            Box(
+            ScrollableColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
-                contentAlignment = Alignment.TopStart
-            ) {
+                country = countryDetailState.country,
+                onFavClicked = {
+                    onCountryDetailAction(CountryDetailAction.OnCountryFavIconClicked(it))
+                }
+            )
 
-                ScrollableColumn(
-                    country = countryDetailState.country,
-                    onFavClicked = {
-                        onCountryDetailAction(CountryDetailAction.OnCountryFavIconClicked(it))
-                    }
-                )
-            }
         }
     )
 
@@ -80,12 +78,13 @@ fun CountryDetailScreen(
 
 @Composable
 fun ScrollableColumn(
+    modifier: Modifier = Modifier,
     country: CountryModel,
     onFavClicked: (country: CountryModel) -> Unit
 ) {
     val context = LocalContext.current
     Column(
-        modifier = Modifier
+        modifier = modifier
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -289,7 +288,7 @@ fun ScrollableColumn(
 @Composable
 @Preview(showBackground = true)
 fun PreviewCountryDetailScreen() {
-    CountryListTheme {
+    MaterialTheme {
         ScrollableColumn(
             onFavClicked = {},
             country = CountryModel(

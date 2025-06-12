@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -33,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.livenlearnaday.presentation.R
 import io.github.livenlearnaday.presentation.countrylist.CustomMenuItem
-import io.github.livenlearnaday.presentation.ui.theme.CountryListTheme
 import io.github.livenlearnaday.presentation.ui.theme.royalBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -168,7 +168,7 @@ fun CustomTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCustomTopAppBar() {
-    CountryListTheme {
+    MaterialTheme {
         CustomTopAppBar(
             title = "CountryList",
             showSearchBar = false,
@@ -188,7 +188,7 @@ fun PreviewCustomTopAppBar() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCustomTopAppBarWithSearchBar() {
-    CountryListTheme {
+    MaterialTheme {
         CustomTopAppBar(
             title = "CountryList",
             showSearchBar = true,
@@ -203,3 +203,110 @@ fun PreviewCustomTopAppBarWithSearchBar() {
         )
     }
 }
+
+
+
+
+/*@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppBarTextField(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    hint: String,
+    onClearText: () -> Unit,
+    topBarColor: Color = MaterialTheme.colorScheme.primary,
+    onTopBarColor: Color = MaterialTheme.colorScheme.onPrimary,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val textStyle = LocalTextStyle.current
+    // make sure there is no background color in the decoration box
+    val containerColors = TextFieldDefaults.colors(
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent,
+        focusedTextColor = onTopBarColor,
+        unfocusedTextColor = onTopBarColor,
+        focusedContainerColor = topBarColor,
+        unfocusedContainerColor = topBarColor,
+        disabledContainerColor = topBarColor
+    )
+
+    // If color is not provided via the text style, use content color as a default
+    val textColor = textStyle.color.takeOrElse {
+        onTopBarColor
+    }
+    val mergedTextStyle = textStyle.merge(TextStyle(color = textColor, lineHeight = 20.sp))
+
+    // set the correct cursor position when this composable is first initialized
+    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
+    textFieldValue = textFieldValue.copy(text = value, selection = TextRange(value.length)) // make sure to keep the value updated
+
+    SideEffect(
+        LocalTextSelectionColors provides LocalTextSelectionColors.current
+    ) {
+        BasicTextField(
+            value = textFieldValue,
+            onValueChange = {
+                textFieldValue = it
+                // remove newlines to avoid strange layout issues, and also because singleLine=true
+                onValueChange(it.text.replace("\n", ""))
+            },
+            modifier = modifier
+                .fillMaxWidth()
+                .heightIn(20.dp)
+                .indicatorLine(
+                    enabled = true,
+                    isError = false,
+                    interactionSource = interactionSource,
+                    colors = containerColors
+                )
+                .focusRequester(focusRequester),
+            textStyle = mergedTextStyle,
+            cursorBrush = SolidColor(
+                Color.White
+            ),
+            keyboardOptions = keyboardOptions,
+            keyboardActions = KeyboardActions(
+                onDone = { focusManager.clearFocus() }
+            ),
+            interactionSource = interactionSource,
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                // places text field with placeholder and appropriate bottom padding
+                TextFieldDefaults.DecorationBox(
+                    value = value,
+                    innerTextField = innerTextField,
+                    enabled = true,
+                    singleLine = true,
+                    visualTransformation = VisualTransformation.None,
+                    interactionSource = interactionSource,
+                    isError = false,
+                    placeholder = { Text(text = hint, color = onTopBarColor.copy(alpha = 0.5f), fontSize = 20.sp) },
+                    colors = containerColors,
+                    contentPadding = PaddingValues(bottom = 4.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Spacer(Modifier.weight(1f))
+
+                    Icon(
+                        imageVector = vectorResource(Res.drawable.ic_close),
+                        contentDescription = "Clear",
+                        tint = onTopBarColor,
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 10.dp)
+                            .clickable {
+                                onClearText()
+                            }
+                    )
+                }
+            }
+        )
+    }
+}*/

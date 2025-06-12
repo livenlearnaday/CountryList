@@ -24,7 +24,7 @@ fun AppNavigation() {
             val countryListViewModel = koinViewModel<CountryListViewModel>()
             val countryListState = countryListViewModel.countryListState
             CountryListScreen(
-                onCountryItemClicked = { item ->
+                onCountryItemClicked = { item->
                     navController.navigate(NavigationRoute.CountryDetail(item.name))
                 },
                 countryListState = countryListState,

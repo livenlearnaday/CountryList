@@ -1,8 +1,8 @@
 CountryList
 
 Setup requirement:
-- Java 17
-- Min Android Studio to use is Android Studio Koala that support gradle AGP 8.6.1
+- Java 21
+- Min Android Studio to use is Android Studio Meerkat that support gradle AGP 8.10.1
 
 
 Components used:

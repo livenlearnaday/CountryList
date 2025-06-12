@@ -40,13 +40,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.get()
         allWarningsAsErrors = false
         freeCompilerArgs = listOf(
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
@@ -96,8 +96,6 @@ dependencies {
 
     // navigation
     implementation(libs.bundles.navigation)
-
-    implementation(libs.securityCrypto)
 
     //Timber logging
     implementation(libs.timber)

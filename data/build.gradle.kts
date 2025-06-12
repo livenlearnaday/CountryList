@@ -20,17 +20,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
-
-
         /* Retrieves API from local.properties */
         val properties = org.jetbrains.kotlin.konan.properties.Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "BASE_COUNTRY_LIST_ENDPOINT", "\"https://livenlearnaday.github.io/data/countries/\"")
 
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
 
     buildTypes {
@@ -47,11 +46,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.get()
     }
 
     buildFeatures {
@@ -67,7 +66,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.koin)
-    implementation(libs.securityCrypto)
     implementation(libs.coroutines)
 
     // db

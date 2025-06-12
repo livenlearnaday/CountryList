@@ -97,8 +97,6 @@ dependencies {
     // navigation
     implementation(libs.bundles.navigation)
 
-    implementation(libs.securityCrypto)
-
     //Timber logging
     implementation(libs.timber)
 

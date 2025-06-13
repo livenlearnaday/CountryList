@@ -14,12 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import coil3.ImageLoader
-import coil3.compose.setSingletonImageLoaderFactory
-import coil3.request.CachePolicy
-import coil3.request.crossfade
-import coil3.svg.SvgDecoder
-import coil3.util.DebugLogger
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -75,17 +69,6 @@ fun CountryListTheme(
                 window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
         }
-    }
-
-    setSingletonImageLoaderFactory { context ->
-        ImageLoader.Builder(context)
-            .components {
-                add(SvgDecoder.Factory()) // Add SVG decoder to support SVG images
-            }
-            .memoryCachePolicy(CachePolicy.ENABLED)
-            .crossfade(true)
-            .logger(DebugLogger())
-            .build()
     }
 
     MaterialTheme(

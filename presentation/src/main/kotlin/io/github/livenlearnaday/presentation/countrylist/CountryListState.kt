@@ -13,5 +13,3 @@ data class CountryListState(
     val showSearchBar: Boolean = false,
     val showAllFav: Boolean = false
 )
-
-

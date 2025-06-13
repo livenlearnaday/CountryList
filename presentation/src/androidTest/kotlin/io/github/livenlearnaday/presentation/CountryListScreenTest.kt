@@ -5,9 +5,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.presentation.countrylist.CountryListScreen
 import io.github.livenlearnaday.presentation.countrylist.CountryListState
+import java.util.UUID
 import org.junit.Rule
 import org.junit.Test
-import java.util.UUID
 
 class CountryListScreenTest {
     @get:Rule
@@ -29,12 +29,10 @@ class CountryListScreenTest {
     }
 }
 
-private fun createCountryItems(): List<CountryModel> {
-    return sequence<CountryModel> {
-        CountryModel(
-            name = UUID.randomUUID().toString(),
-            capital = UUID.randomUUID().toString(),
-            flag = UUID.randomUUID().toString()
-        )
-    }.take(5).toList()
-}
+private fun createCountryItems(): List<CountryModel> = sequence<CountryModel> {
+    CountryModel(
+        name = UUID.randomUUID().toString(),
+        capital = UUID.randomUUID().toString(),
+        flag = UUID.randomUUID().toString()
+    )
+}.take(5).toList()

@@ -12,7 +12,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val countryListModule = module {
-    viewModel <CountryListViewModel> {
+    viewModel<CountryListViewModel> {
         CountryListViewModel(
             get<FetchCountriesFromApiUseCase>(),
             get<FetchCountriesFromDbUseCase>(),
@@ -20,7 +20,7 @@ val countryListModule = module {
             get<UpdateCountryFavUseCase>(),
             get<FetchCountriesSearchedUseCase>(),
             get<ClearAllCountriesFavUseCase>(),
-            get< DeleteAllCountriesUseCase>()
+            get<DeleteAllCountriesUseCase>()
         )
     }
 }

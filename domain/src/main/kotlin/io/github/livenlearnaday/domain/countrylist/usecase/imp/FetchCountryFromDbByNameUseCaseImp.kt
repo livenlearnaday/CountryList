@@ -5,11 +5,8 @@ import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountryFromDbByN
 import io.github.livenlearnaday.domain.repository.CountryListRepository
 import kotlinx.coroutines.flow.Flow
 
-class FetchCountryFromDbByNameUseCaseImp  (
+class FetchCountryFromDbByNameUseCaseImp(
     private val countryListRepository: CountryListRepository
-): FetchCountryFromDbByNameUseCase {
-    override fun execute(name: String): Flow<CountryModel> {
-        return countryListRepository.fetchCountryFromDbByName(name)
-    }
-
+) : FetchCountryFromDbByNameUseCase {
+    override fun execute(name: String): Flow<CountryModel> = countryListRepository.fetchCountryFromDbByName(name)
 }

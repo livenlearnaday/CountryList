@@ -10,7 +10,5 @@ import io.github.livenlearnaday.domain.repository.CountryListRepository
 class FetchCountriesFromApiUseCaseImp(
     private val countryListRepository: CountryListRepository
 ) : FetchCountriesFromApiUseCase {
-    override suspend fun execute(): CheckResult<List<CountryModel>, DataError.Network, ErrorResponseModel> {
-        return countryListRepository.fetchCountriesFromApi()
-    }
+    override suspend fun execute(): CheckResult<List<CountryModel>, DataError.Network, ErrorResponseModel> = countryListRepository.fetchCountriesFromApi()
 }

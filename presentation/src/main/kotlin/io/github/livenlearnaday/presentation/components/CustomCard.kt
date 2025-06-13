@@ -25,7 +25,7 @@ import io.github.livenlearnaday.presentation.ui.theme.darkGreen
 @Composable
 fun CallingCodeCard(
     numberString: String,
-    onCallingCodeClicked: (numberString: String) -> Unit,
+    onCallingCodeClicked: (numberString: String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -34,12 +34,10 @@ fun CallingCodeCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
-
                 ConstraintLayout {
                     // Create guideline from the start of the parent at 10% the width of the Composable
                     val startGuideline = createGuidelineFromStart(0.1f)
@@ -72,7 +70,7 @@ fun CallingCodeCard(
                     )
 
                     IconButton(
-                      modifier = Modifier
+                        modifier = Modifier
                             .constrainAs(callBtn) {
                                 start.linkTo(space.end, margin = 10.dp)
                                 end.linkTo(endGuideline)
@@ -92,10 +90,8 @@ fun CallingCodeCard(
                             tint = darkGreen
                         )
                     }
-
                 }
             }
-
         }
     }
 }

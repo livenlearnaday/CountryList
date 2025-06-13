@@ -15,7 +15,7 @@ import timber.log.Timber
 class CountryDetailViewModel(
     countryNameArg: String,
     private val fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase,
-    private val updateCountryFavUseCase: UpdateCountryFavUseCase,
+    private val updateCountryFavUseCase: UpdateCountryFavUseCase
 ) : ViewModel() {
 
     companion object {
@@ -30,7 +30,6 @@ class CountryDetailViewModel(
     var countryDetailState by mutableStateOf(CountryDetailState())
         private set
 
-
     init {
         CountryDetailViewModel::class.simpleName?.let {
             Timber.tag(it)
@@ -39,9 +38,7 @@ class CountryDetailViewModel(
         Timber.d("log $TAG countryNameArg: $countryNameArg")
 
         fetchCountry(countryNameArg)
-
     }
-
 
     fun fetchCountry(name: String) {
         viewModelScope.launch(defaultExceptionHandler) {
@@ -51,7 +48,6 @@ class CountryDetailViewModel(
             }
         }
     }
-
 
     private fun updateCountryModel(country: CountryModel) {
         Timber.d("log, $TAG updateCountryModel country.name:${country.name}")
@@ -64,7 +60,6 @@ class CountryDetailViewModel(
 
     fun countryDetailAction(countryDetailAction: CountryDetailAction) {
         when (countryDetailAction) {
-
             is CountryDetailAction.OnCountryFavIconClicked -> {
                 val isFav = !countryDetailAction.country.isFav
                 updateCountryIsFav(countryDetailAction.country.copy(isFav = isFav))
@@ -77,5 +72,4 @@ class CountryDetailViewModel(
             updateCountryFavUseCase.execute(country.isFav, country.name)
         }
     }
-
 }

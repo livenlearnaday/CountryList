@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.presentation.components
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -51,13 +50,11 @@ fun CustomTopAppBar(
     onDismissMenu: () -> Unit,
     onBackPressed: () -> Unit
 ) {
-
-
     var text by remember { mutableStateOf("") }
     val searchBarExpanded by remember { mutableStateOf(false) }
 
     val windowInsets = WindowInsets.systemBars
-    val innerPadding= windowInsets.asPaddingValues()
+    val innerPadding = windowInsets.asPaddingValues()
 
     TopAppBar(
         modifier = Modifier
@@ -77,16 +74,18 @@ fun CustomTopAppBar(
         },
         colors = TopAppBarDefaults.topAppBarColors().copy(containerColor = royalBlue),
         navigationIcon = {
-            if (!isListScreen || showAllFav) Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_back),
-                contentDescription = "Go Back",
-                tint = Color.White,
-                modifier = Modifier  //padding at the end of a component acts like margin
-                    .padding(end = 20.dp)
-                    .clickable {
-                        onBackPressed()
-                    },
-            )
+            if (!isListScreen || showAllFav) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_back),
+                    contentDescription = "Go Back",
+                    tint = Color.White,
+                    modifier = Modifier //padding at the end of a component acts like margin
+                        .padding(end = 20.dp)
+                        .clickable {
+                            onBackPressed()
+                        }
+                )
+            }
         },
         actions = {
             if (showSearchBar) {
@@ -94,7 +93,7 @@ fun CustomTopAppBar(
                     Modifier
                         .fillMaxWidth()
                         .padding(innerPadding)
-                        .height(64.dp),
+                        .height(64.dp)
                 ) {
                     SearchBar(
                         modifier = Modifier
@@ -114,17 +113,19 @@ fun CustomTopAppBar(
                                     Text(text = "TypeSearch country's name or capital")
                                 },
                                 leadingIcon = {
-                                    Icon(ImageVector.vectorResource(R.drawable.ic_close),
+                                    Icon(
+                                        ImageVector.vectorResource(R.drawable.ic_close),
                                         contentDescription = null,
                                         modifier = Modifier.clickable {
                                             onBackPressed()
-                                        })
+                                        }
+                                    )
                                 },
-                                trailingIcon = null,
+                                trailingIcon = null
                             )
                         },
                         expanded = searchBarExpanded,
-                        onExpandedChange = {},
+                        onExpandedChange = {}
                     ) {}
                 }
             } else {
@@ -160,10 +161,9 @@ fun CustomTopAppBar(
                     )
                 }
             }
-        },
+        }
     )
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -179,11 +179,10 @@ fun PreviewCustomTopAppBar() {
             onMoreIconClicked = {},
             isMenuExpanded = false,
             isListScreen = true,
-            onBackPressed = {},
+            onBackPressed = {}
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
@@ -199,13 +198,10 @@ fun PreviewCustomTopAppBarWithSearchBar() {
             onMoreIconClicked = {},
             isMenuExpanded = false,
             isListScreen = true,
-            onBackPressed = {},
+            onBackPressed = {}
         )
     }
 }
-
-
-
 
 /*@OptIn(ExperimentalMaterial3Api::class)
 @Composable

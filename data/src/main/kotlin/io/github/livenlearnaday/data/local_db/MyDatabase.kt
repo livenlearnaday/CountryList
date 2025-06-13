@@ -15,7 +15,6 @@ import io.github.livenlearnaday.countrylistkotlin.data.entity.CountryEntity
     version = 1,
     exportSchema = false
 )
-
 @TypeConverters(DateConverter::class, ListConverter::class, LanguageListConverter::class)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun countryDao(): CountryDao

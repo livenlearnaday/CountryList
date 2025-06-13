@@ -21,7 +21,6 @@ import io.github.livenlearnaday.presentation.countrylist.CustomMenuItem.Companio
 import io.github.livenlearnaday.presentation.ui.theme.lightGrey
 import timber.log.Timber
 
-
 @Composable
 fun CountryListDropdownMenu(
     expanded: Boolean,
@@ -29,16 +28,16 @@ fun CountryListDropdownMenu(
     onSelect: (itemSelected: CustomMenuItem) -> Unit,
     onDismissMenu: () -> Unit
 ) {
-
     Column(
         modifier = Modifier
-            .width(with(LocalDensity.current){
-                CustomMenuItem.ClearAllFavs.title.length.toDp()
-            }),
+            .width(
+                with(LocalDensity.current) {
+                    CustomMenuItem.ClearAllFavs.title.length.toDp()
+                }
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
         Box {
             DropdownMenu(
                 expanded = expanded,
@@ -63,19 +62,19 @@ fun CountryListDropdownMenu(
 @Preview(showBackground = true)
 @Composable
 fun PreviewCountryListDropdownMenu() {
-
     MaterialTheme {
         Column(
             modifier = Modifier
                 .padding(bottom = 2.dp, top = 2.dp)
-                .width(with(LocalDensity.current) {
-                    Timber.d("log  CustomMenuItem.longestText: ${CustomMenuItem.longestText}")
-                    CustomMenuItem.longestText.length.toDp()
-                }),
+                .width(
+                    with(LocalDensity.current) {
+                        Timber.d("log  CustomMenuItem.longestText: ${CustomMenuItem.longestText}")
+                        CustomMenuItem.longestText.length.toDp()
+                    }
+                ),
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.Top
         ) {
-
             Box {
                 DropdownMenu(
                     expanded = true,

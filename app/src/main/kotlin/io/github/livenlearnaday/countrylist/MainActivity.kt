@@ -15,12 +15,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            KoinContext() {
+            KoinContext {
                 CountryListTheme {
                     AppNavigation()
-                    }
                 }
             }
-
+        }
     }
 }

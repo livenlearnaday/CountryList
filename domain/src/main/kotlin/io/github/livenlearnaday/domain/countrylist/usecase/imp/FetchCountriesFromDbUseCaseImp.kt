@@ -8,7 +8,5 @@ import kotlinx.coroutines.flow.Flow
 class FetchCountriesFromDbUseCaseImp(
     private val countryListRepository: CountryListRepository
 ) : FetchCountriesFromDbUseCase {
-    override fun execute(): Flow<List<CountryModel>> {
-        return countryListRepository.fetchCountriesFromDb()
-    }
+    override fun execute(): Flow<List<CountryModel>> = countryListRepository.fetchCountriesFromDb()
 }

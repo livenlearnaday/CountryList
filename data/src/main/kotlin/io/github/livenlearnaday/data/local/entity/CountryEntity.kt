@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = "country_table")
 @OptIn(ExperimentalSerializationApi::class)
-data class CountryEntity (
+data class CountryEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     val name: String = "",
@@ -24,14 +24,3 @@ data class CountryEntity (
     var note: String = ""
 
 )
-
-
-
-
-
-
-
-
-
-
-

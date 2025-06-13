@@ -15,5 +15,4 @@ data class LanguageDto(
 
     @SerialName("iso639_2")
     var iso6392: String? = null
-
 }

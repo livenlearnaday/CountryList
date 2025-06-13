@@ -28,7 +28,7 @@ class MyApplication : Application() {
                 countryListUseCaseModule,
                 countryListModule,
                 countryDetailModule,
-                viewModelModule,
+                viewModelModule
             )
         }
     }

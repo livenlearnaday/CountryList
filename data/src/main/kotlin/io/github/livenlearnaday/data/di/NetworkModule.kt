@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.data.di
 
-
 import io.github.livenlearnaday.data.local.CountryListLocalDataSource
 import io.github.livenlearnaday.data.network_clients.HttpKtorClient
 import io.github.livenlearnaday.data.remote.CountryListRemoteDataSource
@@ -25,7 +24,7 @@ val networkModule = module {
     factory<CountryListRepository> {
         CountryListRepositoryImp(
             get<CountryListRemoteDataSource>(),
-            get<CountryListLocalDataSource>())
+            get<CountryListLocalDataSource>()
+        )
     }
-
 }

@@ -49,5 +49,4 @@ interface CountryDao {
 
     @Query("SELECT * FROM country_table WHERE name = :name ")
     fun fetchCountryFromDbByName(name: String): Flow<CountryEntity>
-
 }

@@ -58,6 +58,4 @@ val countryListUseCaseModule = module {
     factory<FetchCountryFromDbByNameUseCase> {
         FetchCountryFromDbByNameUseCaseImp(get<CountryListRepository>())
     }
-
-
 }

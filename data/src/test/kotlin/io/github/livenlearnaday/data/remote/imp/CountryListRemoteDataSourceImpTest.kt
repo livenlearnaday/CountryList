@@ -6,9 +6,9 @@ import io.github.livenlearnaday.data.remote.CountryListRemoteDataSource
 import io.github.livenlearnaday.domain.CheckResult
 import io.mockk.coEvery
 import io.mockk.mockk
+import java.util.UUID
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.util.UUID
 
 class CountryListRemoteDataSourceImpTest {
 
@@ -23,17 +23,16 @@ class CountryListRemoteDataSourceImpTest {
         val region = UUID.randomUUID().toString()
         val subregion = UUID.randomUUID().toString()
 
-        val countryList =  listOf(
-                CountryDto( name, capital, region, subregion, flag, emptyList(), listOf("+66"))
-            )
+        val countryList = listOf(
+            CountryDto(name, capital, region, subregion, flag, emptyList(), listOf("+66"))
+        )
 
-        coEvery { countryListRemoteDataSource.fetchCountries()} returns (CheckResult.Success(countryList))
+        coEvery { countryListRemoteDataSource.fetchCountries() } returns (CheckResult.Success(countryList))
 
         // Act
         val actual = countryListRemoteDataSource.fetchCountries() as CheckResult.Success<*>
 
         // Assert
-        assertThat(actual.data ).isEqualTo(countryList)
+        assertThat(actual.data).isEqualTo(countryList)
     }
-
 }

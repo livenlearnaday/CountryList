@@ -7,7 +7,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val countryDetailModule = module {
-    viewModel<CountryDetailViewModel> {  (countryNameArg: String) ->
+    viewModel<CountryDetailViewModel> { (countryNameArg: String) ->
         CountryDetailViewModel(
             countryNameArg = countryNameArg,
             get<FetchCountryFromDbByNameUseCase>(),

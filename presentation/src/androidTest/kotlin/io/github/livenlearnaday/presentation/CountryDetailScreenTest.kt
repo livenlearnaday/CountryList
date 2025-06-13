@@ -44,6 +44,4 @@ class CountryDetailScreenTest {
         rule.onNodeWithText(countryModel.subregion).assertExists()
         rule.onNodeWithText("+${countryModel.callingCodes.first()}").assertExists()
     }
-
-
 }

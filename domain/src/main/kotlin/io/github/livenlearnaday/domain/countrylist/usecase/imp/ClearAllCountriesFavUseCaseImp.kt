@@ -4,8 +4,8 @@ import io.github.livenlearnaday.domain.countrylist.usecase.ClearAllCountriesFavU
 import io.github.livenlearnaday.domain.repository.CountryListRepository
 
 class ClearAllCountriesFavUseCaseImp(
-private val countryListRepository: CountryListRepository
-): ClearAllCountriesFavUseCase {
+    private val countryListRepository: CountryListRepository
+) : ClearAllCountriesFavUseCase {
     override suspend fun execute() {
         countryListRepository.clearAllFavCountries()
     }

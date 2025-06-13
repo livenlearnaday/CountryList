@@ -6,7 +6,7 @@ import io.github.livenlearnaday.domain.repository.CountryListRepository
 
 class SaveCountriesUseCaseImp(
     private val countryListRepository: CountryListRepository
-): SaveCountriesUseCase {
+) : SaveCountriesUseCase {
     override suspend fun execute(countries: List<CountryModel>) {
         countryListRepository.insertCountries(countries)
     }

@@ -12,32 +12,32 @@ sealed interface UiText {
 
     /** Used from composables */
     @Composable
-    fun asString(): String {
-        return when(this) {
-            is DynamicString -> {
-                this.value
-            }
-            is StringResource -> {
-                stringResource(id = this.resId, this.args)
-            }
-            is Empty -> {
-                ""
-            }
+    fun asString(): String = when (this) {
+        is DynamicString -> {
+            this.value
+        }
+
+        is StringResource -> {
+            stringResource(id = this.resId, this.args)
+        }
+
+        is Empty -> {
+            ""
         }
     }
 
     /** Used for non-composables */
-    fun asString(context: Context): String {
-        return when(this) {
-            is DynamicString -> {
-                this.value
-            }
-            is StringResource -> {
-                context.getString(this.resId, this.args)
-            }
-            is Empty -> {
-                ""
-            }
+    fun asString(context: Context): String = when (this) {
+        is DynamicString -> {
+            this.value
+        }
+
+        is StringResource -> {
+            context.getString(this.resId, this.args)
+        }
+
+        is Empty -> {
+            ""
         }
     }
 }

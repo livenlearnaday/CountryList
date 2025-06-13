@@ -7,22 +7,21 @@ import io.github.livenlearnaday.domain.repository.CountryListRepository
 import io.github.livenlearnaday.domain.survey.usecases.imp.FetchCountriesFromApiUseCaseImp
 import io.mockk.coEvery
 import io.mockk.mockk
+import java.util.UUID
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import java.util.UUID
-
 
 class FetchCountriesFromApiImpTest {
 
     private val countryListRepository: CountryListRepository = mockk()
 
     @Test
-    fun should_return_countryList_when_success() = runTest{
+    fun should_return_countryList_when_success() = runTest {
         // Arrange
         val flag = UUID.randomUUID().toString()
-        val countryList =  listOf(
-                CountryModel( 1, "Thailand", "Bangkok", "region", "subregion", flag, emptyList(), listOf("+66"))
-            )
+        val countryList = listOf(
+            CountryModel(1, "Thailand", "Bangkok", "region", "subregion", flag, emptyList(), listOf("+66"))
+        )
         coEvery { countryListRepository.fetchCountriesFromApi() } returns CheckResult.Success(countryList)
         val fetchCountriesFromApiUseCase = FetchCountriesFromApiUseCaseImp(countryListRepository)
 
@@ -31,6 +30,5 @@ class FetchCountriesFromApiImpTest {
 
         // Assert
         assertThat(result).isEqualTo(countryList)
-
     }
 }

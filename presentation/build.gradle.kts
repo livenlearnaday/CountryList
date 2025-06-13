@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.spotless)
 }
 
 android {
@@ -12,17 +13,6 @@ android {
         minSdk =  libs.versions.android.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
 
     buildFeatures {
@@ -34,7 +24,7 @@ android {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
-    
+
     kotlinOptions {
         jvmTarget = libs.versions.jvm.get()
     }
@@ -53,7 +43,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
-    
+
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -61,7 +51,7 @@ dependencies {
     implementation(libs.bundles.navigation)
 
     implementation(libs.timber)
-    implementation(libs.kamel)
+    implementation(libs.bundles.coil)
     implementation(libs.androidx.animation.graphics.android)
     implementation(libs.androidx.constraintlayout.compose)
 

@@ -9,14 +9,9 @@ fun CustomImage(
     flagUrlString: String,
     modifier: Modifier
 ) {
-
     AsyncImage(
         modifier = modifier,
         model = flagUrlString,
         contentDescription = "Flag Image"
     )
-
 }
-
-
-

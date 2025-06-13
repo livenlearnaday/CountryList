@@ -2,8 +2,8 @@ package io.github.livenlearnaday.data.remote.imp
 
 import io.github.livenlearnaday.data.countrylist.CountryDto
 import io.github.livenlearnaday.data.models.ErrorResponseDto
-import io.github.livenlearnaday.data.remote.CountryListRemoteDataSource
 import io.github.livenlearnaday.data.remote.ApiRoutes
+import io.github.livenlearnaday.data.remote.CountryListRemoteDataSource
 import io.github.livenlearnaday.data.util.safeApiRequest
 import io.github.livenlearnaday.domain.CheckResult
 import io.github.livenlearnaday.domain.DataError
@@ -23,6 +23,4 @@ class CountryListRemoteDataSourceImp(
 
         return safeResult
     }
-
-
 }

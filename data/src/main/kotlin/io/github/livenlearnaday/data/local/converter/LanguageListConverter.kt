@@ -2,9 +2,9 @@ package io.github.livenlearnaday.countrylistkotlin.data.converter
 
 import androidx.room.TypeConverter
 import io.github.livenlearnaday.countrylistkotlin.data.entity.LanguageEntity
+import java.util.Collections
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.Collections
 
 class LanguageListConverter {
 
@@ -17,8 +17,5 @@ class LanguageListConverter {
     }
 
     @TypeConverter
-    fun languageObjectListToString(someObjects: List<LanguageEntity>): String {
-        return Json.encodeToString(someObjects)
-    }
-
+    fun languageObjectListToString(someObjects: List<LanguageEntity>): String = Json.encodeToString(someObjects)
 }

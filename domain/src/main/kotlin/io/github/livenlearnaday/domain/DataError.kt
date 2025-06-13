@@ -12,7 +12,7 @@ sealed interface DataError : Error {
         SERIALIZATION,
         CONFLICT,
         UNKNOWN,
-        NOTHING,
+        NOTHING
     }
 
     enum class Local : DataError {

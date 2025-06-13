@@ -35,15 +35,13 @@ fun DotPulsingLoadingIndicator(
     }
 }
 
-
 val dotSize = 12.dp
 const val DELAY_UNIT = 300 // change delay to change animation speed
 
 @Composable
 fun DotsPulsing(
-    dotColor: Color = Color.White,
+    dotColor: Color = Color.White
 ) {
-
     @Composable
     fun Dot(
         scale: Float

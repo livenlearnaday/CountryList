@@ -14,6 +14,7 @@ import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesFromDbU
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesSearchedUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.SaveCountriesUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
+import java.time.Instant
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.time.Instant
 
 class CountryListViewModel(
     private val fetchCountriesFromApiUseCase: FetchCountriesFromApiUseCase,
@@ -81,7 +81,6 @@ class CountryListViewModel(
     }
 
     private suspend fun fetchCountryListFromApi() {
-
         when (val apiResponse = fetchCountriesFromApiUseCase.execute()) {
             is CheckResult.Success -> {
                 saveCountriesUseCase.execute(countries = apiResponse.data)
@@ -104,7 +103,6 @@ class CountryListViewModel(
 
     fun countryListAction(countryListAction: CountryListAction) {
         when (countryListAction) {
-
             is CountryListAction.OnFetchCountryListFromApi -> {
                 refetchDataFromApi()
                 resetMenuSettings()
@@ -120,17 +118,15 @@ class CountryListViewModel(
 
             is CountryListAction.OnSelectMenuItem -> {
                 updateCustomMenuItem(countryListAction.menuItem)
-                when(countryListAction.menuItem){
-
+                when (countryListAction.menuItem) {
                     CustomMenuItem.FetchFromNetwork,
-                    CustomMenuItem.ClearAllFavs ->  updateShowMenuWarning(true)
+                    CustomMenuItem.ClearAllFavs -> updateShowMenuWarning(true)
 
                     CustomMenuItem.ShowAllFavs -> {}
 
                     else -> {
                         resetMenuSettings()
                     }
-
                 }
             }
 
@@ -162,7 +158,6 @@ class CountryListViewModel(
                     countryItems = countryListState.countryItems.filter { it.isFav }
                 )
                 resetMenuSettings()
-
             }
 
             CountryListAction.OnRefreshListScreen -> {
@@ -188,10 +183,9 @@ class CountryListViewModel(
         }
     }
 
-
     private fun updateLocalCountryFav(countryItems: List<CountryModel>, country: CountryModel): List<CountryModel> {
-         countryItems.forEachIndexed { index, item ->
-            if( item.id == country.id) {
+        countryItems.forEachIndexed { index, item ->
+            if (item.id == country.id) {
                 countryItems[index].copy(
                     isFav = !country.isFav
                 )
@@ -199,7 +193,7 @@ class CountryListViewModel(
             return countryItems
         }
 
-       return countryItems
+        return countryItems
     }
 
     private fun updateShowMenu(isShow: Boolean) {
@@ -251,7 +245,6 @@ class CountryListViewModel(
                     )
                 }
                 .launchIn(this)
-
         }
     }
 
@@ -264,13 +257,11 @@ class CountryListViewModel(
         }
     }
 
-
     private fun resetMenuSettings() {
         updateShowMenu(false)
         updateShowMenuWarning(false)
         updateCustomMenuItem(CustomMenuItem.None)
     }
-
 
     private fun resetCountryItems() {
         countryListState = countryListState.copy(
@@ -286,7 +277,6 @@ class CountryListViewModel(
             isLoading = true
         )
         fetchCountryList()
-
     }
 
     private fun updateIsLoading(isLoading: Boolean) {
@@ -300,4 +290,3 @@ class CountryListViewModel(
         Timber.d("OnCleared ${CountryListViewModel::class.simpleName}")
     }
 }
-

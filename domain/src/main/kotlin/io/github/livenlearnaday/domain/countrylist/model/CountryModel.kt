@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.domain.countrylist.model
 
-
 data class CountryModel(
     val id: Int = 0,
     val name: String = "",

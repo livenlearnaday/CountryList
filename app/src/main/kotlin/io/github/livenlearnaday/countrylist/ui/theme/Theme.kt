@@ -21,7 +21,6 @@ import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import coil3.util.DebugLogger
 
-
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
@@ -41,7 +40,7 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    */
+     */
 )
 
 @Composable
@@ -58,6 +57,7 @@ fun CountryListTheme(
         }
 
         darkTheme -> DarkColorScheme
+
         else -> LightColorScheme
     }
 

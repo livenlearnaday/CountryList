@@ -28,8 +28,6 @@ android {
         buildConfigField("String", "WEATHERSTACK_KEY", "\"${properties["CLIENT_KEY"]}\"")
         buildConfigField("String", "WEATHERSTACK_ENDPOINT", "\"https://api.weatherstack.com/\"")
         buildConfigField("String", "BASE_URL", "\"https://livenlearnaday.github.io/data/countries/\"")
-
-
     }
 
     buildTypes {
@@ -47,7 +45,6 @@ android {
 
         isCoreLibraryDesugaringEnabled = true
     }
-
 
     kotlinOptions {
         jvmTarget = libs.versions.jvm.get()
@@ -107,7 +104,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
 
-
     // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
@@ -129,9 +125,5 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.bundles.koin.compose)
 
-
     implementation(libs.bundles.coil)
-
-
-
 }

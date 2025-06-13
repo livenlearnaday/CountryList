@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.presentation.countrylist
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,7 +50,6 @@ fun CountryListScreen(
     onCountryItemClicked: (country: CountryModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     if (countryListState.showMenuWarning) {
         CommonAlertDialog(
             onClose = {
@@ -84,9 +82,9 @@ fun CountryListScreen(
         is CustomMenuItem.ShowAllFavs -> {
             onCountryListAction(CountryListAction.OnShowFavs)
         }
+
         else -> {}
     }
-
 
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -114,7 +112,7 @@ fun CountryListScreen(
                 },
                 onBackPressed = {
                     onCountryListAction(CountryListAction.OnRefreshListScreen)
-                },
+                }
             )
         },
         content = { innerPadding ->
@@ -125,7 +123,6 @@ fun CountryListScreen(
             if (countryListState.isLoading) {
                 DotPulsingLoadingIndicator()
             } else {
-
                 val lazyGridState = rememberLazyGridState()
 
                 LazyVerticalGrid(
@@ -141,7 +138,6 @@ fun CountryListScreen(
                     columns = GridCells.Fixed(count = 1),
                     state = lazyGridState,
                     content = {
-
                         itemsIndexed(
                             items = list,
                             key = { index, item ->
@@ -187,7 +183,6 @@ fun CountryItemScreen(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         CustomImage(
             flagUrlString = country.flag,
             modifier = Modifier
@@ -255,11 +250,10 @@ fun PreviewCountryListScreen() {
                         capital = "Tirana",
                         flag = "https://flagcdn.com/al.svg",
                         isFav = true
-                    ),
+                    )
                 ),
                 showSearchBar = true
             )
         )
     }
 }
-

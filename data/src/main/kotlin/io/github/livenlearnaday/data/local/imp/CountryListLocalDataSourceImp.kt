@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.data.local.imp
 
-
 import io.github.livenlearnaday.countrylistkotlin.data.entity.CountryEntity
 import io.github.livenlearnaday.data.local.CountryListLocalDataSource
 import io.github.livenlearnaday.data.local_db.CountryDao
@@ -8,17 +7,13 @@ import kotlinx.coroutines.flow.Flow
 
 class CountryListLocalDataSourceImp(
     private val countryDao: CountryDao
-): CountryListLocalDataSource {
-    override fun fetchCountries(): Flow<List<CountryEntity>> {
-       return countryDao.fetchCountries()
-    }
+) : CountryListLocalDataSource {
+    override fun fetchCountries(): Flow<List<CountryEntity>> = countryDao.fetchCountries()
 
-    override fun fetchSearchCountries(query: String): Flow<List<CountryEntity>> {
-        return countryDao.fetchCountriesSearchResults(query)
-    }
+    override fun fetchSearchCountries(query: String): Flow<List<CountryEntity>> = countryDao.fetchCountriesSearchResults(query)
 
     override suspend fun insertCountries(countries: List<CountryEntity>) {
-       countryDao.insertCountries(countries)
+        countryDao.insertCountries(countries)
     }
 
     override suspend fun updateCountry(country: CountryEntity) {
@@ -37,9 +32,5 @@ class CountryListLocalDataSourceImp(
         countryDao.clearCountryTable()
     }
 
-    override fun fetchCountryFromDbByName(name: String): Flow<CountryEntity> {
-        return countryDao.fetchCountryFromDbByName(name)
-    }
-
+    override fun fetchCountryFromDbByName(name: String): Flow<CountryEntity> = countryDao.fetchCountryFromDbByName(name)
 }
-

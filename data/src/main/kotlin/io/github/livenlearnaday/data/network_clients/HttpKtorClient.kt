@@ -17,38 +17,34 @@ import timber.log.Timber
 
 class HttpKtorClient {
 
-    fun build(): HttpClient {
-        return HttpClient(CIO) {
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        prettyPrint = true
-                        ignoreUnknownKeys = true
-                        coerceInputValues = true
-                    }
-                )
-            }
-
-
-            install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        Timber.d(message)
-                    }
+    fun build(): HttpClient = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(
+                Json {
+                    prettyPrint = true
+                    ignoreUnknownKeys = true
+                    coerceInputValues = true
                 }
+            )
+        }
 
-                if (BuildConfig.DEBUG) {
-                    this.level = LogLevel.ALL
-                } else {
-                    this.level = LogLevel.NONE
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Timber.d(message)
                 }
             }
 
-            defaultRequest {
-                contentType(ContentType.Application.Json)
-                accept(ContentType.Application.Json)
+            if (BuildConfig.DEBUG) {
+                this.level = LogLevel.ALL
+            } else {
+                this.level = LogLevel.NONE
             }
+        }
 
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+            accept(ContentType.Application.Json)
         }
     }
 }

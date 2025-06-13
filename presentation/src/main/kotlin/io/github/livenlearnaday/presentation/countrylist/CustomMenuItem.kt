@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.presentation.countrylist
 
-
 import androidx.annotation.StringRes
 import io.github.livenlearnaday.presentation.R
 

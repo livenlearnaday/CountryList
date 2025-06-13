@@ -14,5 +14,4 @@ dependencies {
 
     // test
     testImplementation(libs.bundles.test.impl)
-
 }

@@ -23,18 +23,15 @@ val viewModelModule = module {
             get<UpdateCountryFavUseCase>(),
             get<FetchCountriesSearchedUseCase>(),
             get<ClearAllCountriesFavUseCase>(),
-            get< DeleteAllCountriesUseCase>()
+            get<DeleteAllCountriesUseCase>()
         )
     }
 
-    viewModel<CountryDetailViewModel> {  (countryNameArg: String) ->
+    viewModel<CountryDetailViewModel> { (countryNameArg: String) ->
         CountryDetailViewModel(
             countryNameArg = countryNameArg,
             get<FetchCountryFromDbByNameUseCase>(),
             get<UpdateCountryFavUseCase>()
         )
     }
-
-
 }
-

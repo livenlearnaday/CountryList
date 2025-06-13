@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 class FetchCountriesSearchedUseCaseImp(
     private val countryListRepository: CountryListRepository
-): FetchCountriesSearchedUseCase {
-    override fun execute(query: String): Flow<List<CountryModel>> {
-        return countryListRepository.fetchSearchCountries(query)
-    }
-
+) : FetchCountriesSearchedUseCase {
+    override fun execute(query: String): Flow<List<CountryModel>> = countryListRepository.fetchSearchCountries(query)
 }

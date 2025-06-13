@@ -2,7 +2,6 @@ package io.github.livenlearnaday.countrylist.navigation
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 sealed class NavigationRoute {
     @Serializable
@@ -15,7 +14,4 @@ sealed class NavigationRoute {
 
     @Serializable
     object Settings
-
-
 }
-

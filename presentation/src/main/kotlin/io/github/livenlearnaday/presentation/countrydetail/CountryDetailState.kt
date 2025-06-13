@@ -7,5 +7,3 @@ data class CountryDetailState(
     val country: CountryModel = CountryModel(),
     val isLoading: Boolean = false
 )
-
-

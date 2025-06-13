@@ -16,7 +16,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk =  libs.versions.android.minSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -26,7 +26,6 @@ android {
         properties.load(project.rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "BASE_COUNTRY_LIST_ENDPOINT", "\"https://livenlearnaday.github.io/data/countries/\"")
-
     }
 
     ksp {
@@ -70,5 +69,4 @@ dependencies {
 
     // test
     testImplementation(libs.bundles.test.impl)
-
 }

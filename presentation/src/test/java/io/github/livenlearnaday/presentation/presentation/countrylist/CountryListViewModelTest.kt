@@ -6,13 +6,13 @@ import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesFromApiUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
+import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
-import java.util.UUID
 
 class CountryListViewModelTest {
     private val fetchCountriesFromApiUseCase: FetchCountriesFromApiUseCase = mockk()
@@ -32,7 +32,7 @@ class CountryListViewModelTest {
         val countryListModel = listOf(CountryModel(1, name, capital, flag))
 
         val countryListViewModel = CountryListViewModel(fetchCountriesFromApiUseCase, mockk(), mockk(), mockk(), mockk(), mockk(), mockk())
-        coEvery{ fetchCountriesFromApiUseCase.execute() } returns CheckResult.Success(countryListModel)
+        coEvery { fetchCountriesFromApiUseCase.execute() } returns CheckResult.Success(countryListModel)
 
         // Act
         countryListViewModel.countryListAction(CountryListAction.OnFetchCountryListFromApi)

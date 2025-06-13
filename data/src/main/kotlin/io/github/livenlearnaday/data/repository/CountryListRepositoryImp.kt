@@ -18,21 +18,18 @@ import kotlinx.coroutines.flow.map
 class CountryListRepositoryImp(
     private val countryListRemoteDataSource: CountryListRemoteDataSource,
     private val countryListLocalDataSource: CountryListLocalDataSource
-): CountryListRepository {
-    override suspend fun fetchCountriesFromApi(): CheckResult<List<CountryModel>, DataError.Network, ErrorResponseModel> {
+) : CountryListRepository {
+    override suspend fun fetchCountriesFromApi(): CheckResult<List<CountryModel>, DataError.Network, ErrorResponseModel> = when (val apiResponse = countryListRemoteDataSource.fetchCountries()) {
+        is CheckResult.Success -> {
+            CheckResult.Success(apiResponse.data.map { it.toCountryModel() })
+        }
 
-        return when(val apiResponse = countryListRemoteDataSource.fetchCountries() ) {
-            is CheckResult.Success -> {
-                CheckResult.Success(apiResponse.data.map {  it.toCountryModel() })
-            }
-
-            is CheckResult.Failure -> {
-                CheckResult.Failure(
-                    exceptionError = apiResponse.exceptionError,
-                    responseError = apiResponse.responseError?.toErrorResponseModel() ?:
-                    ErrorResponseModel(listOf( ErrorModel(code = "1", message = "unknown error")))
-                )
-            }
+        is CheckResult.Failure -> {
+            CheckResult.Failure(
+                exceptionError = apiResponse.exceptionError,
+                responseError = apiResponse.responseError?.toErrorResponseModel()
+                    ?: ErrorResponseModel(listOf(ErrorModel(code = "1", message = "unknown error")))
+            )
         }
     }
 
@@ -63,11 +60,11 @@ class CountryListRepositoryImp(
     }
 
     override suspend fun updateCountry(country: CountryModel) {
-       countryListLocalDataSource.updateCountry(country.toCountryEntity())
+        countryListLocalDataSource.updateCountry(country.toCountryEntity())
     }
 
     override suspend fun updateCountryFav(fav: Boolean, countryName: String) {
-       countryListLocalDataSource.updateCountryFav(fav, countryName)
+        countryListLocalDataSource.updateCountryFav(fav, countryName)
     }
 
     override suspend fun clearAllFavCountries() {
@@ -83,6 +80,4 @@ class CountryListRepositoryImp(
             .map { it.toCountryModel() }
         return result
     }
-
-
 }

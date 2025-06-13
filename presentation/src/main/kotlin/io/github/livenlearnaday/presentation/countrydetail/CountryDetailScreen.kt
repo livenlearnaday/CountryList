@@ -42,7 +42,6 @@ fun CountryDetailScreen(
     countryDetailState: CountryDetailState,
     onCountryDetailAction: (CountryDetailAction) -> Unit
 ) {
-
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
@@ -55,7 +54,7 @@ fun CountryDetailScreen(
                 onDismissMenu = { },
                 onBackPressed = {
                     onBackPressed()
-                },
+                }
             )
         },
         content = { innerPadding ->
@@ -69,12 +68,9 @@ fun CountryDetailScreen(
                     onCountryDetailAction(CountryDetailAction.OnCountryFavIconClicked(it))
                 }
             )
-
         }
     )
-
 }
-
 
 @Composable
 fun ScrollableColumn(
@@ -90,7 +86,6 @@ fun ScrollableColumn(
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-
         ConstraintLayout {
             val (
                 favButtonLayout,
@@ -117,7 +112,6 @@ fun ScrollableColumn(
                     },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
-
 
             ) {
                 FavToggleButton(
@@ -237,13 +231,11 @@ fun ScrollableColumn(
 
                     if (languageModel.name.isNotEmpty()) {
                         Text(
-                            text = languageModel.name,
+                            text = languageModel.name
                         )
                     }
                 }
-
             }
-
 
             Text(
                 text = stringResource(R.string.title_calling_codes),
@@ -258,7 +250,6 @@ fun ScrollableColumn(
 
             Column(
                 modifier = Modifier
-
                     .constrainAs(countryCallingCodeLayout) {
                         top.linkTo(countryCallingcodesTitle.bottom)
                         start.linkTo(parent.start, margin = 60.dp)
@@ -276,12 +267,8 @@ fun ScrollableColumn(
                         }
                     )
                 }
-
             }
-
         }
-
-
     }
 }
 
@@ -304,7 +291,6 @@ fun PreviewCountryDetailScreen() {
     }
 }
 
-
 fun openDialerWithCallCode(callCode: String, context: Context) {
     val data = Uri.parse("tel:+$callCode")
     val intent = Intent(Intent.ACTION_DIAL, data)
@@ -315,4 +301,3 @@ fun openDialerWithCallCode(callCode: String, context: Context) {
             .show()
     }
 }
-

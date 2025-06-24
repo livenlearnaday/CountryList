@@ -50,6 +50,8 @@ dependencies {
 
     implementation(libs.bundles.navigation)
 
+    implementation(libs.kotlinx.datetime)
+
     implementation(libs.timber)
     implementation(libs.bundles.coil)
     implementation(libs.androidx.animation.graphics.android)

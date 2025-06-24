@@ -14,7 +14,9 @@ import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesFromDbU
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesSearchedUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.SaveCountriesUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
-import java.time.Instant
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
@@ -84,7 +86,7 @@ class CountryListViewModel(
         when (val apiResponse = fetchCountriesFromApiUseCase.execute()) {
             is CheckResult.Success -> {
                 saveCountriesUseCase.execute(countries = apiResponse.data)
-                updateTimeStamp(Instant.now().epochSecond)
+                updateTimeStamp()
                 updateIsLoading(false)
             }
 
@@ -172,9 +174,12 @@ class CountryListViewModel(
         }
     }
 
-    private fun updateTimeStamp(timeStamp: Long) {
+    @OptIn(ExperimentalTime::class)
+    private fun updateTimeStamp() {
+        val now: Instant = Clock.System.now() // Current instant in UTC
+        val nowInUTCMilliSeconds = now.toEpochMilliseconds().div(1000)
         countryListState = countryListState.copy(
-            fetchDataUnixTimeStampInSeconds = timeStamp.toString()
+            fetchDataUnixTimeStampInSeconds = nowInUTCMilliSeconds.toString()
         )
     }
 

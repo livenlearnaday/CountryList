@@ -42,8 +42,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
-
-        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -98,7 +96,6 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

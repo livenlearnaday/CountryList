@@ -163,6 +163,12 @@ class CountryListViewModel(
             CountryListAction.OnRefreshListScreen -> {
                 repopulateCountryItems()
             }
+
+            CountryListAction.OnExitSearchMode -> {
+                countryListState = countryListState.copy(
+                    showSearchBar = false
+                )
+            }
         }
     }
 

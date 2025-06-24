@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import io.github.livenlearnaday.presentation.countrydetail.CountryDetailScreen
 import io.github.livenlearnaday.presentation.countrydetail.CountryDetailViewModel
+import io.github.livenlearnaday.presentation.countrylist.CountryListAction
 import io.github.livenlearnaday.presentation.countrylist.CountryListScreen
 import io.github.livenlearnaday.presentation.countrylist.CountryListViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -28,7 +29,17 @@ fun AppNavigation() {
                     navController.navigate(NavigationRoute.CountryDetail(item.name))
                 },
                 countryListState = countryListState,
-                onCountryListAction = countryListViewModel::countryListAction
+                onCountryListAction = countryListViewModel::countryListAction,
+                onBackPressed = {
+                    when {
+                        countryListState.showSearchBar -> {
+                            countryListViewModel.countryListAction(CountryListAction.OnExitSearchMode)
+                            countryListViewModel.countryListAction(CountryListAction.OnRefreshListScreen)
+                        }
+
+                        else -> navController.popBackStack()
+                    }
+                }
             )
         }
         composable<NavigationRoute.CountryDetail> { backStackEntry ->

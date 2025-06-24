@@ -1,5 +1,6 @@
 package io.github.livenlearnaday.presentation.countrylist
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,11 +46,16 @@ import io.github.livenlearnaday.presentation.components.FavToggleButton
 
 @Composable
 fun CountryListScreen(
+    modifier: Modifier = Modifier,
     countryListState: CountryListState,
     onCountryListAction: (CountryListAction) -> Unit,
     onCountryItemClicked: (country: CountryModel) -> Unit,
-    modifier: Modifier = Modifier
+    onBackPressed: () -> Unit
 ) {
+    BackHandler(enabled = true, onBack = {
+        onBackPressed()
+    })
+
     if (countryListState.showMenuWarning) {
         CommonAlertDialog(
             onClose = {
@@ -111,7 +117,7 @@ fun CountryListScreen(
                     onCountryListAction(CountryListAction.OnDismissMenu)
                 },
                 onBackPressed = {
-                    onCountryListAction(CountryListAction.OnRefreshListScreen)
+                    onBackPressed()
                 }
             )
         },
@@ -253,7 +259,8 @@ fun PreviewCountryListScreen() {
                     )
                 ),
                 showSearchBar = true
-            )
+            ),
+            onBackPressed = {}
         )
     }
 }

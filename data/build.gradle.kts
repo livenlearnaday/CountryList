@@ -38,8 +38,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
-
-        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvm.get()
@@ -52,8 +50,6 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.timber)
     implementation(libs.androidx.core.ktx)

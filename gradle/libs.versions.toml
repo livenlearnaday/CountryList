@@ -14,8 +14,8 @@ androidxLifecycle = "2.9.1"
 animationGraphicsAndroid = "1.8.2"
 coil = "3.2.0"
 coroutines = "1.10.2"
-desugarJdkLibs = "2.1.5"
 gradle = "8.10.1"
+jetbrainsKotlinDateTime = "0.6.2"
 kotlin = "2.1.21"
 koinVersion = "4.1.0"
 koinCompose = "4.1.0"
@@ -64,7 +64,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil"}
 coil-svg = {group= "io.coil-kt.coil3", name ="coil-svg", version.ref = "coil"}
 coil-network = {group= "io.coil-kt.coil3", name ="coil-network-okhttp", version.ref = "coil"}
-desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinVersion" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinVersion" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinVersion" }
@@ -81,6 +80,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 
 # jetbrains
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "jetbrainsKotlinDateTime"}
 ktx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationKtx" }
 
 #Test libs

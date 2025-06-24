@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import io.github.livenlearnaday.countrylist.navigation.AppNavigation
 import io.github.livenlearnaday.countrylist.ui.theme.CountryListTheme
-import org.koin.compose.KoinContext
 
 class MainActivity : ComponentActivity() {
 
@@ -15,10 +14,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            KoinContext {
-                CountryListTheme {
-                    AppNavigation()
-                }
+            CountryListTheme {
+                AppNavigation()
             }
         }
     }

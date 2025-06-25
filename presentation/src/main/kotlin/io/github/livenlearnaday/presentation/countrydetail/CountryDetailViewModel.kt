@@ -60,7 +60,11 @@ class CountryDetailViewModel(
         when (countryDetailAction) {
             is CountryDetailAction.OnCountryFavIconClicked -> {
                 val isFav = !countryDetailAction.country.isFav
-                updateCountryIsFav(countryDetailAction.country.copy(isFav = isFav))
+                val updatedCountry = countryDetailState.country.copy(isFav = isFav)
+                countryDetailState = countryDetailState.copy(
+                    country = updatedCountry
+                )
+                updateCountryIsFav(updatedCountry)
             }
 
             CountryDetailAction.FetchData -> {

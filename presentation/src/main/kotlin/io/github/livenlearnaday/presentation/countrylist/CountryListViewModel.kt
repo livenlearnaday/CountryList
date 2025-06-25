@@ -83,7 +83,11 @@ class CountryListViewModel(
     private suspend fun fetchCountryListFromApi() {
         when (val apiResponse = fetchCountriesFromApiUseCase.execute()) {
             is CheckResult.Success -> {
-                saveCountriesUseCase.execute(countries = apiResponse.data)
+                val countryList = apiResponse.data
+                countryListState = countryListState.copy(
+                    countryItems = countryList
+                )
+                saveCountriesUseCase.execute(countryList)
                 updateTimeStamp()
                 updateIsLoading(false)
             }

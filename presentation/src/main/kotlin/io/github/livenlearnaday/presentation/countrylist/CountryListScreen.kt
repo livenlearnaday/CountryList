@@ -153,7 +153,7 @@ fun CountryListScreen(
                         itemsIndexed(
                             items = list,
                             key = { index, item ->
-                                item.id
+                                "$index${item.id}"
                             }
                         ) { index, item ->
 

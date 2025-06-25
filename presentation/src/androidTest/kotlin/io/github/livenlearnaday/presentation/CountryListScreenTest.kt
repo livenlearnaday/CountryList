@@ -20,7 +20,8 @@ class CountryListScreenTest {
             CountryListScreen(
                 countryListState = CountryListState(countryItems = createCountryItems()),
                 onCountryItemClicked = { },
-                onCountryListAction = { }
+                onCountryListAction = { },
+                onBackPressed = { }
             )
         }
 

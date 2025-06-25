@@ -51,8 +51,6 @@ class CountryListViewModel(
         CountryListViewModel::class.simpleName?.let {
             Timber.tag(it)
         }
-
-        fetchCountryList()
     }
 
     private fun fetchCountryList() {
@@ -170,6 +168,10 @@ class CountryListViewModel(
                 countryListState = countryListState.copy(
                     showSearchBar = false
                 )
+            }
+
+            CountryListAction.FetchData -> {
+                fetchCountryList()
             }
         }
     }

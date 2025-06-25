@@ -9,9 +9,6 @@ sealed class NavigationRoute {
 
     @Serializable
     data class CountryDetail(
-        val countryNameArgValue: String
+        val countryNameArg: String
     )
-
-    @Serializable
-    object Settings
 }

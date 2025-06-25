@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CountryDetailViewModel(
-    countryNameArg: String,
+    private val countryNameArg: String,
     private val fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase,
     private val updateCountryFavUseCase: UpdateCountryFavUseCase
 ) : ViewModel() {
@@ -36,11 +36,9 @@ class CountryDetailViewModel(
         }
 
         Timber.d("log $TAG countryNameArg: $countryNameArg")
-
-        fetchCountry(countryNameArg)
     }
 
-    fun fetchCountry(name: String) {
+    private fun fetchCountry(name: String) {
         viewModelScope.launch(defaultExceptionHandler) {
             Timber.d("log $TAG fetchCountry name: $name")
             fetchCountryFromDbByNameUseCase.execute(name).collect { country ->
@@ -63,6 +61,10 @@ class CountryDetailViewModel(
             is CountryDetailAction.OnCountryFavIconClicked -> {
                 val isFav = !countryDetailAction.country.isFav
                 updateCountryIsFav(countryDetailAction.country.copy(isFav = isFav))
+            }
+
+            CountryDetailAction.FetchData -> {
+                fetchCountry(countryNameArg)
             }
         }
     }

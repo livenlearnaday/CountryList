@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.presentation.R
 import io.github.livenlearnaday.presentation.components.CommonAlertDialog
@@ -90,6 +92,10 @@ fun CountryListScreen(
         }
 
         else -> {}
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        onCountryListAction(CountryListAction.FetchData)
     }
 
     Scaffold(
@@ -182,11 +188,11 @@ fun CountryItemScreen(
 ) {
     Row(
         modifier = Modifier
-            .padding(10.dp)
             .fillMaxWidth()
             .clickable {
                 onItemClicked(country)
-            },
+            }
+            .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CustomImage(

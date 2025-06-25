@@ -2,7 +2,6 @@ package io.github.livenlearnaday.presentation.countrydetail
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.domain.countrylist.model.LanguageModel
 import io.github.livenlearnaday.presentation.R
@@ -42,6 +44,10 @@ fun CountryDetailScreen(
     countryDetailState: CountryDetailState,
     onCountryDetailAction: (CountryDetailAction) -> Unit
 ) {
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        onCountryDetailAction(CountryDetailAction.FetchData)
+    }
+
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
@@ -292,7 +298,7 @@ fun PreviewCountryDetailScreen() {
 }
 
 fun openDialerWithCallCode(callCode: String, context: Context) {
-    val data = Uri.parse("tel:+$callCode")
+    val data = "tel:+$callCode".toUri()
     val intent = Intent(Intent.ACTION_DIAL, data)
     try {
         context.startActivity(intent)

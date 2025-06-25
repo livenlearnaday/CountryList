@@ -15,4 +15,5 @@ sealed interface CountryListAction {
     data object OnShowFavs : CountryListAction
     data object OnRefreshListScreen : CountryListAction
     data object OnExitSearchMode : CountryListAction
+    data object FetchData : CountryListAction
 }

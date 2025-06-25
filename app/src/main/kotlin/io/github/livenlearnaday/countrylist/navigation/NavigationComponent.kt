@@ -43,10 +43,10 @@ fun AppNavigation() {
             )
         }
         composable<NavigationRoute.CountryDetail> { backStackEntry ->
-            val countryNameArgValue =
-                backStackEntry.toRoute<NavigationRoute.CountryDetail>().countryNameArgValue
+            val countryNameArg =
+                backStackEntry.toRoute<NavigationRoute.CountryDetail>().countryNameArg
             val countryDetailViewModel =
-                koinViewModel<CountryDetailViewModel> { parametersOf(countryNameArgValue) }
+                koinViewModel<CountryDetailViewModel> { parametersOf(countryNameArg) }
             val countryDetailState = countryDetailViewModel.countryDetailState
             CountryDetailScreen(
                 onBackPressed = {

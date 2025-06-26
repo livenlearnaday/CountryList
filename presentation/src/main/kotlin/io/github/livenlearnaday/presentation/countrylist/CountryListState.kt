@@ -11,5 +11,6 @@ data class CountryListState(
     val showMenuWarning: Boolean = false,
     val customMenuItem: CustomMenuItem = CustomMenuItem.None,
     val showSearchBar: Boolean = false,
-    val showAllFav: Boolean = false
+    val showAllFav: Boolean = false,
+    val searchResults: List<CountryModel> = emptyList()
 )

@@ -2,7 +2,6 @@ package io.github.livenlearnaday.presentation.countrylist
 
 import com.google.common.truth.Truth.assertThat
 import io.github.livenlearnaday.domain.CheckResult
-import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.domain.countrylist.usecase.ClearAllCountriesFavUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.DeleteAllCountriesUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesFromApiUseCase
@@ -11,33 +10,50 @@ import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesSearche
 import io.github.livenlearnaday.domain.countrylist.usecase.SaveCountriesUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
 import io.github.livenlearnaday.presentation.mockdata.CountryMockData
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.unmockkAll
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 class CountryListViewModelTest {
 
     private lateinit var viewModel: CountryListViewModel
-    private lateinit var countryList: List<CountryModel>
-    private val fetchCountriesFromApiUseCase: FetchCountriesFromApiUseCase = mockk()
-    private val fetchCountriesFromDbUseCase: FetchCountriesFromDbUseCase = mockk()
-    private val saveCountriesUseCase: SaveCountriesUseCase = mockk()
-    private val updateCountryFavUseCase: UpdateCountryFavUseCase = mockk()
-    private val fetchCountriesSearchedUseCase: FetchCountriesSearchedUseCase = mockk()
-    private val clearAllCountriesFavUseCase: ClearAllCountriesFavUseCase = mockk()
-    private val deleteAllCountriesUseCase: DeleteAllCountriesUseCase = mockk()
+
+    @MockK
+    private lateinit var fetchCountriesFromApiUseCase: FetchCountriesFromApiUseCase
+
+    @MockK
+    private lateinit var fetchCountriesFromDbUseCase: FetchCountriesFromDbUseCase
+
+    @MockK
+    private lateinit var saveCountriesUseCase: SaveCountriesUseCase
+
+    @MockK
+    private lateinit var updateCountryFavUseCase: UpdateCountryFavUseCase
+
+    @MockK
+    private lateinit var fetchCountriesSearchedUseCase: FetchCountriesSearchedUseCase
+
+    @MockK
+    private lateinit var clearAllCountriesFavUseCase: ClearAllCountriesFavUseCase
+
+    @MockK
+    private lateinit var deleteAllCountriesUseCase: DeleteAllCountriesUseCase
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         Dispatchers.setMain(Dispatchers.Unconfined)
-        countryList = listOf(CountryMockData.countryThailand)
         viewModel = CountryListViewModel(
             fetchCountriesFromApiUseCase,
             fetchCountriesFromDbUseCase,
@@ -49,10 +65,18 @@ class CountryListViewModelTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        unmockkAll()
+    }
+
     @Test
-    fun `should fetch countries data from db`() = runTest {
+    fun `should fetch countries data from db`() {
         // Arrange
-        coEvery { fetchCountriesFromDbUseCase.execute() } returns flowOf(countryList)
+        val countryList = listOf(CountryMockData.countryThailand)
+        every { fetchCountriesFromDbUseCase.execute() } returns flowOf(countryList)
 
         // Act
         viewModel.countryListAction(CountryListAction.FetchData)
@@ -67,9 +91,10 @@ class CountryListViewModelTest {
     }
 
     @Test
-    fun `should fetch from the network`() = runTest {
+    fun `should fetch from the network`() {
         // Arrange
-        coEvery { fetchCountriesFromDbUseCase.execute() } returns flowOf(emptyList())
+        val countryList = listOf(CountryMockData.countryThailand)
+        every { fetchCountriesFromDbUseCase.execute() } returns flowOf(emptyList())
         coEvery { fetchCountriesFromApiUseCase.execute() } returns CheckResult.Success(countryList)
 
         // Act
@@ -85,10 +110,12 @@ class CountryListViewModelTest {
     }
 
     @Test
-    fun `refetch data from network`() = runTest {
+    fun `refetch data from network`() {
         // Arrange
+        val countryList = listOf(CountryMockData.countryThailand)
         coEvery { deleteAllCountriesUseCase.execute() } returns Unit
         coEvery { fetchCountriesFromApiUseCase.execute() } returns CheckResult.Success(countryList)
+        coEvery { saveCountriesUseCase.execute(any()) } returns Unit
 
         // Act
         viewModel.countryListAction(CountryListAction.OnFetchCountryListFromApi)

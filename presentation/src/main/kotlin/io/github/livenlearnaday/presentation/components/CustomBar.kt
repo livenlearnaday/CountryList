@@ -187,7 +187,8 @@ fun AppBarTextField(
         unfocusedTextColor = contentColor,
         focusedContainerColor = containerColor,
         unfocusedContainerColor = containerColor,
-        disabledContainerColor = containerColor
+        disabledContainerColor = containerColor,
+        cursorColor = contentColor
     )
 
     var text by rememberSaveable { mutableStateOf("") }

@@ -34,7 +34,6 @@ fun AppNavigation() {
                     when {
                         countryListState.showSearchBar -> {
                             countryListViewModel.countryListAction(CountryListAction.OnExitSearchMode)
-                            countryListViewModel.countryListAction(CountryListAction.OnRefreshListScreen)
                         }
 
                         else -> navController.popBackStack()

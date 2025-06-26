@@ -22,10 +22,10 @@ class CountryDetailViewModelTest {
     private lateinit var viewModel: CountryDetailViewModel
 
     @MockK
-    lateinit var fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase
+    private lateinit var fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase
 
     @MockK
-    lateinit var updateCountryFavUseCase: UpdateCountryFavUseCase
+    private lateinit var updateCountryFavUseCase: UpdateCountryFavUseCase
 
     private lateinit var country: CountryModel
 

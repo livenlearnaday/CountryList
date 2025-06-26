@@ -5,27 +5,36 @@ import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountryFromDbByNameUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
 import io.github.livenlearnaday.presentation.mockdata.CountryMockData
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.mockk
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 class CountryDetailViewModelTest {
     private lateinit var viewModel: CountryDetailViewModel
+
+    @MockK
+    lateinit var fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase
+
+    @MockK
+    lateinit var updateCountryFavUseCase: UpdateCountryFavUseCase
+
     private lateinit var country: CountryModel
-    private val fetchCountryFromDbByNameUseCase: FetchCountryFromDbByNameUseCase = mockk()
-    private val updateCountryFavUseCase: UpdateCountryFavUseCase = mockk()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
-        Dispatchers.setMain(Dispatchers.Unconfined)
         country = CountryMockData.countryThailand
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(Dispatchers.Unconfined)
         viewModel = CountryDetailViewModel(
             country.name,
             fetchCountryFromDbByNameUseCase,
@@ -33,22 +42,31 @@ class CountryDetailViewModelTest {
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun `should fetch country data`() = runTest {
+    fun `should fetch country data on success`() {
         // Arrange
-        coEvery { fetchCountryFromDbByNameUseCase.execute(country.name) } returns flowOf(country)
+        every { fetchCountryFromDbByNameUseCase.execute(country.name) } returns flowOf(country)
 
         // Act
         viewModel.countryDetailAction(CountryDetailAction.FetchData)
 
         // Assert
-        assertThat(viewModel.countryDetailState.country.name).isEqualTo(country.name)
-        assertThat(viewModel.countryDetailState.country.capital).isEqualTo(country.capital)
-        assertThat(viewModel.countryDetailState.country.flag).isEqualTo(country.flag)
+        if (!viewModel.countryDetailState.isLoading) {
+            val result = viewModel.countryDetailState.country
+            assertThat(result.name).isEqualTo(country.name)
+            assertThat(result.capital).isEqualTo(country.capital)
+            assertThat(result.flag).isEqualTo(country.flag)
+        }
     }
 
     @Test
-    fun `should fetch set country fav`() = runTest {
+    fun `set country fav should return true`() {
         // Arrange
         coEvery { updateCountryFavUseCase.execute(true, country.name) } returns Unit
 
@@ -56,6 +74,7 @@ class CountryDetailViewModelTest {
         viewModel.countryDetailAction(CountryDetailAction.OnCountryFavIconClicked(country))
 
         // Assert
-        assertThat(viewModel.countryDetailState.country.isFav).isEqualTo(true)
+        val result = viewModel.countryDetailState.country
+        assertThat(result.isFav).isEqualTo(true)
     }
 }

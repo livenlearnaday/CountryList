@@ -184,7 +184,9 @@ class CountryListViewModel(
             }
 
             CountryListAction.FetchData -> {
-                fetchCountryList()
+                if (countryListState.countryItems.isEmpty()) {
+                    fetchCountryList()
+                }
             }
         }
     }

@@ -9,6 +9,10 @@ import io.github.livenlearnaday.domain.countrylist.model.CountryModel
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountryFromDbByNameUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -38,22 +42,24 @@ class CountryDetailViewModel(
         Timber.d("log $TAG countryNameArg: $countryNameArg")
     }
 
-    private fun fetchCountry(name: String) {
-        viewModelScope.launch(defaultExceptionHandler) {
-            Timber.d("log $TAG fetchCountry name: $name")
-            fetchCountryFromDbByNameUseCase.execute(name).collect { country ->
-                updateCountryModel(country)
+    private fun fetchCountry(countryName: String) {
+        fetchCountryFromDbByNameUseCase.execute(countryName)
+            .onStart {
+                countryDetailState = countryDetailState.copy(
+                    isLoading = true
+                )
             }
-        }
-    }
-
-    private fun updateCountryModel(country: CountryModel) {
-        Timber.d("log, $TAG updateCountryModel country.name:${country.name}")
-        Timber.d("log, $TAG updateCountryModel country.flag:${country.flag}")
-
-        countryDetailState = countryDetailState.copy(
-            country = country
-        )
+            .catch { throwable ->
+                countryDetailState = countryDetailState.copy(
+                    isLoading = false
+                )
+            }
+            .onEach { country ->
+                countryDetailState = countryDetailState.copy(
+                    country = country,
+                    isLoading = false
+                )
+            }.launchIn(viewModelScope)
     }
 
     fun countryDetailAction(countryDetailAction: CountryDetailAction) {

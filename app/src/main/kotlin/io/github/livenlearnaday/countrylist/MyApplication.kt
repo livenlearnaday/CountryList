@@ -6,7 +6,6 @@ import io.github.livenlearnaday.data.di.networkModule
 import io.github.livenlearnaday.domain.di.countryListUseCaseModule
 import io.github.livenlearnaday.presentation.di.countryDetailModule
 import io.github.livenlearnaday.presentation.di.countryListModule
-import io.github.livenlearnaday.presentation.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -27,8 +26,7 @@ class MyApplication : Application() {
                 localCacheModule,
                 countryListUseCaseModule,
                 countryListModule,
-                countryDetailModule,
-                viewModelModule
+                countryDetailModule
             )
         }
     }

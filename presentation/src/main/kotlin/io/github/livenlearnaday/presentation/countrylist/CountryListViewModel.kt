@@ -14,14 +14,15 @@ import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesFromDbU
 import io.github.livenlearnaday.domain.countrylist.usecase.FetchCountriesSearchedUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.SaveCountriesUseCase
 import io.github.livenlearnaday.domain.countrylist.usecase.UpdateCountryFavUseCase
-import kotlin.time.Clock
+import io.github.livenlearnaday.presentation.util.nowInUTCMilliSecondsString
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -57,43 +58,51 @@ class CountryListViewModel(
         viewModelScope.launch(defaultExceptionHandler) {
             if (fetchCountriesFromDbUseCase.execute().first().isEmpty()) {
                 fetchCountryListFromApi()
+            } else {
+                fetchCountryListFromDb()
             }
-
-            fetchCountriesFromDbUseCase.execute()
-                .onEach { listOfCountries: List<CountryModel> ->
-                    countryListState = countryListState.copy(
-                        countryItems = listOfCountries.sortedBy { it.name },
-                        isLoading = false
-                    )
-                }
-                .launchIn(this)
         }
     }
 
     private fun fetchCountryListFromDb() {
         fetchCountriesFromDbUseCase.execute()
-            .onEach { listOfCountries: List<CountryModel> ->
+            .onStart {
+                countryListState = countryListState.copy(
+                    isLoading = true
+                )
+            }
+            .catch {
+                countryListState = countryListState.copy(
+                    isLoading = false
+                )
+            }
+            .onEach { listOfCountries ->
                 countryListState = countryListState.copy(
                     countryItems = listOfCountries.sortedBy { it.name },
                     isLoading = false
                 )
-            }
+            }.launchIn(viewModelScope)
     }
 
     private suspend fun fetchCountryListFromApi() {
+        countryListState = countryListState.copy(
+            isLoading = true
+        )
         when (val apiResponse = fetchCountriesFromApiUseCase.execute()) {
             is CheckResult.Success -> {
                 val countryList = apiResponse.data
+                updateTimeStamp(nowInUTCMilliSecondsString())
                 countryListState = countryListState.copy(
-                    countryItems = countryList
+                    countryItems = countryList,
+                    isLoading = false
                 )
                 saveCountriesUseCase.execute(countryList)
-                updateTimeStamp()
-                updateIsLoading(false)
             }
 
             is CheckResult.Failure -> {
-                updateIsLoading(false)
+                countryListState = countryListState.copy(
+                    isLoading = false
+                )
 
                 Timber.d(
                     "$TAG %s %s",
@@ -181,11 +190,9 @@ class CountryListViewModel(
     }
 
     @OptIn(ExperimentalTime::class)
-    private fun updateTimeStamp() {
-        val now: Instant = Clock.System.now() // Current instant in UTC
-        val nowInUTCMilliSeconds = now.toEpochMilliseconds().div(1000)
+    private fun updateTimeStamp(nowInUTCMilliSecondsString: String) {
         countryListState = countryListState.copy(
-            fetchDataUnixTimeStampInSeconds = nowInUTCMilliSeconds.toString()
+            fetchDataUnixTimeStampInSeconds = nowInUTCMilliSecondsString
         )
     }
 
@@ -238,30 +245,37 @@ class CountryListViewModel(
     }
 
     private fun searchDbByText(query: String) {
-        viewModelScope.launch(defaultExceptionHandler) {
-            fetchCountriesSearchedUseCase.execute(query)
-                .onEach { listOfCountries: List<CountryModel> ->
-                    countryListState = countryListState.copy(
-                        countryItems = listOfCountries.sortedBy { it.name }
-                    )
-                }
-                .launchIn(this)
+        if (query.isBlank()) {
+            countryListState = countryListState.copy(
+                searchResults = emptyList()
+            )
+        } else {
+            viewModelScope.launch(defaultExceptionHandler) {
+                fetchCountriesSearchedUseCase.execute(query)
+                    .onEach { listOfCountries ->
+                        if (listOfCountries.isEmpty()) {
+                            countryListState = countryListState.copy(
+                                searchResults = emptyList()
+                            )
+                        } else {
+                            countryListState = countryListState.copy(
+                                searchResults = listOfCountries.sortedBy { it.name }
+                            )
+                        }
+                    }
+                    .launchIn(viewModelScope)
+            }
         }
     }
 
     private fun clearAllFavs() {
         viewModelScope.launch(defaultExceptionHandler) {
-            resetCountryItems()
-            val clearFavDeferred = async { clearAllCountriesFavUseCase.execute() }
-            clearFavDeferred.await()
+            val updatedCountryList = countryListState.countryItems.map { it.copy(isFav = false) }
+            countryListState = countryListState.copy(
+                countryItems = updatedCountryList
+            )
 
-            fetchCountriesFromDbUseCase.execute()
-                .onEach { listOfCountries: List<CountryModel> ->
-                    countryListState = countryListState.copy(
-                        countryItems = listOfCountries.sortedBy { it.name }
-                    )
-                }
-                .launchIn(this)
+            clearAllCountriesFavUseCase.execute()
         }
     }
 
@@ -269,7 +283,6 @@ class CountryListViewModel(
         viewModelScope.launch(defaultExceptionHandler) {
             val clearDataDeferred = async { deleteAllCountriesUseCase.execute() }
             clearDataDeferred.await()
-            updateIsLoading(true)
             fetchCountryListFromApi()
         }
     }
@@ -280,12 +293,6 @@ class CountryListViewModel(
         updateCustomMenuItem(CustomMenuItem.None)
     }
 
-    private fun resetCountryItems() {
-        countryListState = countryListState.copy(
-            countryItems = emptyList()
-        )
-    }
-
     fun repopulateCountryItems() {
         countryListState = countryListState.copy(
             countryItems = emptyList(),
@@ -294,12 +301,6 @@ class CountryListViewModel(
             isLoading = true
         )
         fetchCountryList()
-    }
-
-    private fun updateIsLoading(isLoading: Boolean) {
-        countryListState = countryListState.copy(
-            isLoading = isLoading
-        )
     }
 
     override fun onCleared() {

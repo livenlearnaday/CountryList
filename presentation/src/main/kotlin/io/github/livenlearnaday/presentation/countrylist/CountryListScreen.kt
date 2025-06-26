@@ -130,7 +130,7 @@ fun CountryListScreen(
         content = { innerPadding ->
 
             var list by remember { mutableStateOf(countryListState.countryItems) }
-            list = countryListState.countryItems
+            list = if (countryListState.showSearchBar) countryListState.searchResults else countryListState.countryItems
 
             if (countryListState.isLoading) {
                 DotPulsingLoadingIndicator()
